@@ -8,7 +8,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 const port = process.env.PORT || 3000;
 
 const mongoose = require('mongoose');
-const connectionString = "mongodb+srv://XQUpPhzwTOjgnE62:XQUpPhzwTOjgnE62@cluster0.tzukg.mongodb.net/bdpos?retryWrites=true&w=majority"
+const connectionString = "mongodb+srv://posgraduacao123:posgraduacao@cluster0.m6a1r.mongodb.net/bdpos?retryWrites=true&w=majority"
 mongoose.connect(connectionString, {useNewUrlParser:true, useUnifiedTopology: true, useFindAndModify: false });
 
 const router = express.Router();
