@@ -5,6 +5,14 @@
 This aplication is a project developed as an activity for a class by teacher <a href="https://github.com/navarro-hubess">Fabio Navarro</a>.
 The project is an API developed at <a href="https://nodejs.org/en/">Node JS</a> with a <a href="https://www.json.org/json-pt.html">JSON</a> notation for consumption with two 'Product' and 'Category' entities.
 
+###Tecnologies
+
+• Node
+• Express
+• Nodemon
+• Mongoose (MongoDB)
+• Body Parser
+
 
 <div class="UploadContainer" style="width: 100%; margin-top: 0px; display: flex; justify-content: left;">
 <div class="UploadPost" style="width: 800px; a.{max-width: 100%; display: block;}">
