@@ -3,67 +3,59 @@ const router = express.Router();
 const Produto = require('../app/models/product');
 
 //Post
-router.post('/', function(req,res){
-    const produto = new Produto();
-    produto.nome = req.body.nome;
-    produto.preco = req.body.preco;
-    produto.descricao = req.body.descricao;
+router.post('/', async (req, res) => {
+    id = req.body.categoria;
+    const { nome, preco, descricao } = req.body;
+    const produto = await Produto.create({
+        nome,
+        preco,
+        descricao,
+        categoria:id
+    });
 
-    produto.save(function(error){
+    await produto.save((error) => {
         if(error)
-            res.send("Erro ao salvar", error)
-            res.status(201).json({message: 'produto inserido com sucesso'});
-    })
-})
+            res.status(500).json(
+                {
+                    message: "Error ao tentar salvar um novo produto " + error
+                }
+            );
+
+        res.status(201).json({message: 'Produto inserido com sucesso'});
+    });
+});
 
 //Get ALL
-router.get('/', function (req, res) {
-    Produto.find(function (err, prods) {
-        if (err)
-            res.send(err);
-        res.status(200).json({
-            message: "retorno ok de todos os produtos",
-            allProducts: prods
-        });
-    });
+router.get('/', async (req, res) => {
+    produtoByCategoria = await Produto.find().populate('categoria');
+    res.status(200).json(produtoByCategoria);
 });
+
 
 //Get ID
-router.get('/:productId', function (req, res) {
+router.get('/:productId',  async (req, res) => {
     const id = req.params.productId;
-    Produto.findById(id, function (err, produto) {
-        if (err) {
-            res.status(500).json({
-                message: "Erro ao tentar encontrar produto; ID mal formado"
-            });
-        } else if (produto == null) {
-            res.status(400).json({
-                message: "produto n„o encontrado para o id passado"
-            });
-        } else {
-            res.status(200).json({
-                message: "produto encontrado",
-                produto: produto
-            });
-        }
-    });
+    produtoByCategoria = await Produto.findById(id).populate('categoria');
+    res.status(200).json(produtoByCategoria);
 });
 
-router.put('/:productId', function (req, res) {
+router.put('/:productId', async (req, res) => {
     const id = req.params.productId;
-    Produto.findById(id, function (err, produto) {
+
+    await Produto.findById(id, function (err, produto) {
         if (err) {
             res.status(500).json({
                 message: "Erro ao tentar encontrar produto; ID mal formado"
             });
         } else if (produto == null) {
             res.status(400).json({
-                message: "produto n„o encontrado para o id passado"
+                message: "produto n√£o encontrado para o id passado"
             });
         } else {
             produto.nome = req.body.nome;
             produto.preco = req.body.preco;
             produto.descricao = req.body.descricao;
+            produto.categoria = req.body.categoria;
 
             produto.save(function (error) {
                 if (error)
